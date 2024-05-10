@@ -2,6 +2,7 @@ import asyncio
 import aiohttp
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
+from urllib.parse import urlparse
 import pandas as pd
 
 async def fetch_page(session, url):
@@ -59,8 +60,8 @@ async def fetch_speeches_for_year(session, year):
         await asyncio.gather(*tasks)
 
 async def main():
+    years = range(2011, 2024)
     async with aiohttp.ClientSession() as session:
-        years = [str(year) for year in range(2011, 2024)]
         for year in years:
             speeches = await fetch_speeches_for_year(session, year)
             # Filter out empty results
